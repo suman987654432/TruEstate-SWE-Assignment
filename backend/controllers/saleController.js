@@ -41,22 +41,22 @@ const transformSaleData = (row) => ({
 
 export const getSales = async (req, res) => {
   try {
-    console.log('📊 Fetching sales data...');
+    console.log(' Fetching sales data...');
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 100;
     const offset = (page - 1) * limit;
     const sortOrder = req.query.sortOrder || 'ASC';
 
-    console.log(`📄 Page: ${page}, Limit: ${limit}, Offset: ${offset}`);
+    console.log(` Page: ${page}, Limit: ${limit}, Offset: ${offset}`);
 
     const pool = await poolPromise;
-    console.log('✅ Pool connected');
+    console.log('Pool connected');
 
 
     const countResult = await pool.request()
       .query('SELECT COUNT(*) as total FROM dbo.sales');
     const total = countResult.recordset[0].total;
-    console.log(`📈 Total records: ${total}`);
+    console.log(` Total records: ${total}`);
 
 
     const result = await pool.request()
@@ -69,7 +69,7 @@ export const getSales = async (req, res) => {
         FETCH NEXT @limit ROWS ONLY
       `);
 
-    console.log(`✅ Fetched ${result.recordset.length} rows for page ${page} (limit: ${limit})`);
+    console.log(` Fetched ${result.recordset.length} rows for page ${page} (limit: ${limit})`);
 
 
     const transformedData = result.recordset.map(transformSaleData);
